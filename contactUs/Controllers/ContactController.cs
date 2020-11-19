@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using contactUs.Repository;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace contactUs.Controllers 
+namespace contactUs.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -16,22 +16,24 @@ namespace contactUs.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> add([FromBody] Contact contact)
+        public async Task<IActionResult> add([FromBody]Contact contact)
         {
-            var result = await contactRepository.add(contact);
-            
 
+            if (!ModelState.IsValid) BadRequest();
+
+            var result = await contactRepository.add(contact);
             if (result == null)
             {
-                return NotFound( new{message = "No se pudo crear el elemento deseado" });
+                return StatusCode(500);
             }
 
             return Ok(new
             {
                 message = "Agregado",
-                data = result
+                data = contact
             });
         }
+
         // GET api/values/5
         [HttpGet("{id}")]
         public Contact get()

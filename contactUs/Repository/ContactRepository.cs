@@ -31,10 +31,11 @@ namespace contactUs.Repository
             {
                 try
                 {
-                    queryResult = await connection.QuerySingleOrDefaultAsync<Contact>(sSql, new { nombre = contact.nombre, email = contact.email, numero_telefonico = contact.numero_telefonico, compañia = contact.compañia, mensaje = contact.mensaje });
+                    queryResult = await connection.QuerySingleOrDefaultAsync<Contact>(sSql, new { nombre = contact.Nombre, email = contact.Email, numero_telefonico = contact.NumeroTelefonico, compañia = contact.Compañia, mensaje = contact.Mensaje });
                 }
                 catch (Exception e)
                 {
+                    queryResult = null;
                     return queryResult;
                 }
             }
