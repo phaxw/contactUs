@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using contactUs.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace contactUs.Interfaces
+namespace contactUs.Repository.Interfaces
 {
-    public interface IContact
+    public interface IContactRepository
     {
         public Task<Contact> add([FromBody] Contact contact);
 

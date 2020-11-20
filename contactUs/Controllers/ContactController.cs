@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using contactUs.Models;
 using System.Threading.Tasks;
 using contactUs.Repository;
+using contactUs.Repository.Interfaces;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace contactUs.Controllers
@@ -12,7 +13,12 @@ namespace contactUs.Controllers
     public class ContactController : Controller
     {
 
-        ContactRepository contactRepository = new ContactRepository();
+        private readonly IContactRepository IContact;
+
+        public ContactController(IContactRepository IContact)
+        {
+            this.IContact = IContact;
+        }
 
         // POST api/values
         [HttpPost]
@@ -21,7 +27,7 @@ namespace contactUs.Controllers
 
             if (!ModelState.IsValid) BadRequest();
 
-            var result = await contactRepository.add(contact);
+            var result = await IContact.add(contact);
             if (result == null)
             {
                 return StatusCode(500);

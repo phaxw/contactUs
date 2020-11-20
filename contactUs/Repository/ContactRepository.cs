@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
-using contactUs.Interfaces;
 using contactUs.Models;
+using contactUs.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Npgsql;
@@ -10,16 +10,15 @@ using System.Threading.Tasks;
 
 namespace contactUs.Repository
 {
-    public class ContactRepository : IContact
+    public class ContactRepository : IContactRepository
     {
 
-        private IConfiguration _configuration;
-        private string connectionString = "";
+        private readonly string postgresConnection = "";
         List<Contact> listOfContacts = new List<Contact>();
 
-        public ContactRepository()
+        public ContactRepository(string postgresConnection)
         {
-            connectionString = _configuration.GetConnectionString("HerokuBDPostgresql");
+            this.postgresConnection = postgresConnection;
         }
 
         public async Task<Contact> add(Contact contact)
@@ -27,7 +26,7 @@ namespace contactUs.Repository
             Contact queryResult = new Contact();
             string sSql = "INSERT INTO Contact (nombre, email, numero_telefonico, compañia, mensaje) VALUES(@nombre, @email, @numero_telefonico, @compañia, @mensaje)";
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(postgresConnection))
             {
                 try
                 {

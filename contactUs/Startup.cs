@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
+using contactUs.Repository;
+using contactUs.Repository.Interfaces;
 namespace contactUs
 {
     public class Startup
@@ -25,7 +19,9 @@ namespace contactUs
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            var postgresConnection = Configuration.GetValue<string>("HerokuBDPostgresql");
+            services.AddTransient<IContactRepository>(f =>
+                new ContactRepository(postgresConnection));
             services.AddControllers();
         }
 
