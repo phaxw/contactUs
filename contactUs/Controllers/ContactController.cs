@@ -41,19 +41,37 @@ namespace contactUs.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public Contact get()
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> get(int id)
         {
-            Contact contact = new Contact();
-            return contact;
-        }
+            var result = await IContact.get(id);
+            if (result == null)
+            {
+                return StatusCode(500);
+            }
 
-        // GET api/values/5
+            return Ok(new
+            {
+                message = "Agregado",
+                data = result
+            }); 
+        }
+    
+
         [HttpGet]
-        public List<Contact> getAll()
+        public async Task<IActionResult> getAll()
         {
-            List<Contact> listContact = new List<Contact>();
-            return listContact;
+            var results = await IContact.getAll();
+            if (results == null)
+            {
+                return StatusCode(500);
+            }
+
+            return Ok(new
+            {
+                message = "obtenidos",
+                data = results
+            });
         }
 
     }

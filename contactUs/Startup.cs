@@ -19,7 +19,7 @@ namespace contactUs
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var postgresConnection = Configuration.GetValue<string>("HerokuBDPostgresql");
+            var postgresConnection = Configuration.GetConnectionString("HerokuBDPostgresql");
             services.AddTransient<IContactRepository>(f =>
                 new ContactRepository(postgresConnection));
             services.AddControllers();

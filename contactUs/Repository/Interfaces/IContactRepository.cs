@@ -10,8 +10,8 @@ namespace contactUs.Repository.Interfaces
     {
         public Task<Contact> add([FromBody] Contact contact);
 
-        public Task<Contact> get();
+        public Task<Contact> get(int id);
 
-        public Task<List<Contact>> getAll();
+        public Task<IEnumerable<Contact>> getAll();
     }
 }
